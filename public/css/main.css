@@ -1,0 +1,98 @@
+body,html,.container-fluid {
+  height: 100%;
+  min-height:100%;
+}
+
+body.console-page {
+  background-color: black;
+}
+
+body {
+  padding-top: 50px;
+}
+
+
+@media (min-width: 1500px) {
+    .container {
+        width: 1400px;
+    }
+}
+
+@media (min-width: 1400px) {
+    .container {
+        width: 1300px;
+    }
+}
+
+.navbar-brand-custom {
+  font-size: 18pt;
+  padding-top: 8px;
+  font-weight: bold;
+}
+
+.navbar-bad .signout {
+  text-align: center;
+}
+
+.huge {
+    font-size: 35px;
+}
+
+.title {
+    margin-top: auto;
+    margin-bottom: 0
+}
+
+.lower-box {
+  margin-top:50px;
+}
+
+.lower-box h2 {
+  padding-top: 0;
+  margin-top: 0;
+}
+
+
+.equal {
+    display: -webkit-flex;
+    display: flex;
+}
+
+.panel-100 {
+    width: 100%;
+    height: 100%;
+    max-height: 510px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+
+
+
+/* --- TABLE --- */
+.table-stats > tbody > tr > td:nth-child(1), .table-stats > thead > tr > th:nth-child(1) {
+    text-align: left !important;
+}
+
+.table-stats > tbody > tr > td, .table-stats > thead > tr > th {
+    text-align: center !important;
+}
+
+.table-stats-right > tbody > tr > td:nth-child(1), .table-stats-right > thead > tr > th:nth-child(1) {
+    text-align: left !important;
+}
+
+.table-stats-right > tbody > tr > td, .table-stats-right > thead > tr > th {
+    text-align: right !important;
+}
+
+.dataTables_filter {
+    text-align: right;
+}
+
+
+.dc-select-box {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
