@@ -11,7 +11,7 @@ This project builds on top of the [Fastnetmon API](https://fastnetmon.com/fastne
 
 Thr WebUI is written in PHP 7, using the Laravel framework.
 
-## Demonstration
+## Demo
 
 We don't have a demo hosted of this application, but some screenshots are available on the wiki:
 
