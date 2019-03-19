@@ -47,3 +47,9 @@ Naturally, you will also need an installed Fastnetmon Advanced server with the A
  - `ACTION_CC` - *(optional)* Set this if you want a static list of emails to be CC'ed into all ban / unban action notifications.
 5. Migrate the blank database schema into MySQL: `# php artisan migrate --seed`
  - This should also "seed" the database with two demo users to get logged in for the first time: https://github.com/ukfast/fnm-webui/blob/master/database/seeds/UsersTableSeeder.php
+
+If you'd like to have the FNM WebUI log attack history, and send out notification emails when ban/unban actions are performed, you'll need to configure Fastnetmon to use a webhook to:
+
+`https://fnm.domain.com/webhook`
+
+...with your domain for the installation of this project swapped in.
