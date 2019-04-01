@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
+use Carbon\Carbon;
 
 class DC extends Model
 {
@@ -69,9 +70,12 @@ class DC extends Model
 
     public function license() {
         $json = $this->call('license', 'GET');
+
         if(!$json['success']) {
             return false;
         }
+
+        $json['object']['expiration_date_carbon'] = Carbon::createFromFormat('Y-m-d', $json['object']['expiration_date'])->endOfDay();
 
         return $json['object'];
     }

@@ -68,7 +68,7 @@ DC Management
                                     @endif
                                 </td>
                                 <td class="text-center">
-                                    @if ($dc->license()['licensed_bandwidth'] === 0 || $dc->license()['expiration_date'] < \Carbon\Carbon::now())
+                                    @if ($dc->license()['licensed_bandwidth'] === 0 || $dc->license()['expiration_date_carbon'] < \Carbon\Carbon::now())
                                         <i class="fa fa-times text-danger" aria-hidden="true"></i> <!-- Not licensed -->
                                     @else
                                         <i class="fa fa-check text-success" aria-hidden="true"></i>

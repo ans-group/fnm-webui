@@ -95,7 +95,7 @@
                     <tbody>
                             @foreach($dcs as $dc)
                             <tr>
-                                <td><a href="{{ route('dc.show', $dc) }}">{{ $dc->name }}</a>     @if ($dc->license()['licensed_bandwidth'] === 0 || $dc->license()['expiration_date'] < \Carbon\Carbon::now()) &nbsp; <i class="fa fa-exclamation-triangle text-warning" data-toggle="tooltip" data-placement="right" title="This instance is not licensed!"></i> @endif</td>
+                                <td><a href="{{ route('dc.show', $dc) }}">{{ $dc->name }}</a>     @if ($dc->license()['licensed_bandwidth'] === 0 || $dc->license()['expiration_date_carbon'] < \Carbon\Carbon::now()) &nbsp; <i class="fa fa-exclamation-triangle text-warning" data-toggle="tooltip" data-placement="right" title="This instance is not licensed!"></i> @endif</td>
                                 @if($dc->banStatus())
                                 <td class="text-success" id="{{$dc->id}}_bans_enabled"><i class="fa fa-check" aria-hidden="true"></i></td>
                                 @else
