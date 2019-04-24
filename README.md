@@ -53,3 +53,28 @@ If you'd like to have the FNM WebUI log attack history, and send out notificatio
 `https://fnm.domain.com/webhook`
 
 ...with your domain for the installation of this project swapped in.
+
+## Resolving incorrect FNM licence warning
+
+The FastNetMon service will request a license when the service starts up, and this will have a lifetime of 14 days. While at the end of the 14 days, the licensing backend will renew your license (assuming it's been paid for), this is not reflected in the FCLI calls to `show license`.
+
+As a result, the logic in FNM WebUI will determine after 14 days that your license has now expired, and an error message will be displayed.
+
+Example:
+https://github.com/ukfast/fnm-webui/blob/b8077f73ca9c1810045b89dba480f137e5c1466c/resources/views/dc/show.blade.php#L35
+
+After discussing this with FastNetMon support *(ref 2726)*, it has been confirmed that despite the incorrect date shown, the FNM instance is still active and would usually request a new license next time the service is restarted (or a FCLI `commit` is performed).
+
+As of FastNetMon version 2.0.138, an additional FCLI call has been added to perform an online update of the license:
+
+```
+# sudo fcli show license
+{ "address_ipv4": "192.168.1.100", "total_memory_size": 7973, "logical_cpus_number": 4, "cpu_model": "Intel(R) Core(TM)2 Quad CPU    Q8200  @ 2.33GHz", "expiration_date": "2019-04-13", "licensed_bandwidth": 10000, "issuer_type": "automatic" }
+
+# sudo fcli set renew_license 
+
+# sudo fcli show license
+{ "address_ipv4": "192.168.1.100", "total_memory_size": 7973, "logical_cpus_number": 4, "cpu_model": "Intel(R) Core(TM)2 Quad CPU    Q8200  @ 2.33GHz", "expiration_date": "2019-04-17", "licensed_bandwidth": 10000, "issuer_type": "automatic" }
+```
+
+The recommendation is to perform the `fcli set renew_license` within a CRON on the FastNetMon server itself. To be sure it's always up to date, this would be best done every 7 days.
