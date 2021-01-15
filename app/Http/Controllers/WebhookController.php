@@ -89,7 +89,7 @@ class WebhookController extends Controller
         if (env('FORWARD_WEBHOOK')) {
             try {
                 $client = new Client();
-                $client->post(rtrim(env('FORWARD_WEBHOOK'), '/') . '/webhook', [
+                $client->post(env('FORWARD_WEBHOOK'), [
                     'json' => [
                         'ui' => [
                             'dc_id' => $dc->id,
