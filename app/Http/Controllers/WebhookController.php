@@ -85,6 +85,27 @@ class WebhookController extends Controller
 
         $to = User::where(['active' => true, 'notify' => true])->pluck('email');
         $cc = env('ACTION_CC', false);
+        
+        if (env('FORWARD_WEBHOOK')) {
+            $client = new Client();
+            $client->post(rtrim(env('FORWARD_WEBHOOK'), '/') . '/webhook', [
+                'json' => [
+                    'ui' => [
+                        'dc_id' => $dc->id,
+                        'dc_name' => $dc->name,
+                        'action_id' => $action->id,
+                        'created_at' => \Carbon\Carbon::now()->format(\DateTime::ATOM),
+                        'hostgroup_id' => $action->hostgroup_id,
+                        'hostgroup' => $action->hostgroup->name,
+                        'email_to' => $to,
+                        'email_cc' => explode(",", env('ACTION_CC', null)),
+                    ],
+                    'fastnet' => $request->all(),
+                ]
+            ]);
+            return;
+        }
+
         if($cc !== false) {
             $cc = explode(",",$cc);
             Mail::to($to)->cc($cc)->send(new ActionReceived($action));
