@@ -85,7 +85,6 @@ class WebhookController extends Controller
 
         $to = User::where(['active' => true, 'notify' => true])->pluck('email');
         $cc = env('ACTION_CC', false);
-        
         if (env('FORWARD_WEBHOOK')) {
             try {
                 $client = new Client();
@@ -102,7 +101,8 @@ class WebhookController extends Controller
                             'email_cc' => explode(",", env('ACTION_CC', null)),
                         ],
                         'fastnet' => $request->all(),
-                    ]
+                    ],
+                    'headers' => ['Authorization' => env('FORWARD_WEBHOOK_AUTH', '')],
                 ]);
             } catch (\Exception $e) {
                 \Log::critical("Failed to send webhook", [$e]);
