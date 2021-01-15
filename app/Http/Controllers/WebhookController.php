@@ -103,7 +103,6 @@ class WebhookController extends Controller
                     'fastnet' => $request->all(),
                 ]
             ]);
-            return;
         }
 
         if($cc !== false) {
