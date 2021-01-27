@@ -102,7 +102,8 @@ class WebhookController extends Controller
                             'email_cc' => explode(",", env('ACTION_CC', null)),
                         ],
                         'fastnet' => $request->all(),
-                    ]
+                    ],
+                    'headers' => ['Authorization' => env('FORWARD_WEBHOOK_AUTH', '')],
                 ]);
             } catch (\Exception $e) {
                 \Log::critical("Failed to send webhook", [$e]);
