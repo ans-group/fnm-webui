@@ -100,7 +100,7 @@ class WebhookController extends Controller
                             'email_to' => $to,
                             'email_cc' => explode(",", env('ACTION_CC', null)),
                         ],
-                        'fastnet' => $request->all(),
+                        'fastnet' => $data,
                     ],
                     'headers' => ['Authorization' => env('FORWARD_WEBHOOK_AUTH', '')],
                 ]);
@@ -109,11 +109,13 @@ class WebhookController extends Controller
             } finally {}
         }
 
-        if($cc !== false) {
-            $cc = explode(",",$cc);
-            Mail::to($to)->cc($cc)->send(new ActionReceived($action));
-        } else {
-            Mail::to($to)->send(new ActionReceived($action));
+        if (!env('DISABLE_WEBHOOK_EMAIL')) {
+            if($cc !== false) {
+                $cc = explode(",",$cc);
+                Mail::to($to)->cc($cc)->send(new ActionReceived($action));
+            } else {
+                Mail::to($to)->send(new ActionReceived($action));
+            }
         }
         Cache::forget('dc:'.$action->dc_id.':blackhole');
     }
