@@ -100,7 +100,7 @@ class WebhookController extends Controller
                             'email_to' => $to,
                             'email_cc' => explode(",", env('ACTION_CC', null)),
                         ],
-                        'fastnet' => $request->all(),
+                        'fastnet' => $data,
                     ],
                     'headers' => ['Authorization' => env('FORWARD_WEBHOOK_AUTH', '')],
                 ]);
