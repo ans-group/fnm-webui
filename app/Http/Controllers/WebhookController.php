@@ -85,7 +85,6 @@ class WebhookController extends Controller
 
         $to = User::where(['active' => true, 'notify' => true])->pluck('email');
         $cc = env('ACTION_CC', false);
-        
         if (env('FORWARD_WEBHOOK')) {
             try {
                 $client = new Client();
