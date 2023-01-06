@@ -9,7 +9,7 @@ The [Fastnetmon Advanced](https://fastnetmon.com/fastnetmon-advanced/) offers a 
 
 This project builds on top of the [Fastnetmon API](https://fastnetmon.com/fastnetmon-advanced-configuration-options/) to give a single-pane-of-glass interface for monitoring and managing your running FNM instances.
 
-Thr WebUI is written in PHP 7, using the Laravel framework.
+The WebUI is written in PHP 8, using the Laravel framework.
 
 ## Demo
 
