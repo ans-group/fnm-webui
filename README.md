@@ -81,7 +81,7 @@ The recommendation is to perform the `fcli set renew_license` within a CRON on t
 
 ## SQLSTATE[22001]: String data, right truncated: 1406 Data too long for column 'api_password'
 
-Details of fixes for this issue can be found in [githubb issue 4](https://github.com/ans-group/fnm-webui/issues/4)
+Details of fixes for this issue can be found in [github issue 4](https://github.com/ans-group/fnm-webui/issues/4)
 
 First logon to mysql via the CLI and run:
 ```
