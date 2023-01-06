@@ -78,3 +78,14 @@ As of FastNetMon version 2.0.138, an additional FCLI call has been added to perf
 ```
 
 The recommendation is to perform the `fcli set renew_license` within a CRON on the FastNetMon server itself. To be sure it's always up to date, this would be best done every 7 days.
+
+## SQLSTATE[22001]: String data, right truncated: 1406 Data too long for column 'api_password'
+
+Details of fixes for this issue can be found in [githubb issue 4](https://github.com/ans-group/fnm-webui/issues/4)
+
+First logon to mysql via the CLI and run:
+```
+MariaDB [(none)]> use fnm
+MariaDB [fnm]> ALTER TABLE dc MODIFY api_password VARCHAR(255);
+```
+Note: this assumes your database is called `fnm`
