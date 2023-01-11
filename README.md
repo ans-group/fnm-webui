@@ -9,7 +9,7 @@ The [Fastnetmon Advanced](https://fastnetmon.com/fastnetmon-advanced/) offers a 
 
 This project builds on top of the [Fastnetmon API](https://fastnetmon.com/fastnetmon-advanced-configuration-options/) to give a single-pane-of-glass interface for monitoring and managing your running FNM instances.
 
-Thr WebUI is written in PHP 7, using the Laravel framework.
+The WebUI is written in PHP 8, using the Laravel framework.
 
 ## Demo
 
@@ -22,7 +22,7 @@ https://github.com/ukfast/fnm-webui/wiki/Screenshots
 To run the WebUI, you'll need either a [LEMP](https://www.howtoforge.com/tutorial/ubuntu-laravel-php-nginx/) or [LAMP](https://medium.com/@lazycoding/how-to-install-lamp-php-7-and-laravel-5-5-from-scratch-on-ubuntu-16-04-lts-c99949e4319c) stack server with appropriate Laravel rewrite rules in place.
 
 - Apache or NGINX
-- PHP 7.1 / PHP 7.2
+- PHP 8.0
 - MySQL 5.6+ / MariaDB 10.0+
 - Redis 3.2+
 - Postfix / Sendmail
@@ -78,3 +78,14 @@ As of FastNetMon version 2.0.138, an additional FCLI call has been added to perf
 ```
 
 The recommendation is to perform the `fcli set renew_license` within a CRON on the FastNetMon server itself. To be sure it's always up to date, this would be best done every 7 days.
+
+## SQLSTATE[22001]: String data, right truncated: 1406 Data too long for column 'api_password'
+
+Details of fixes for this issue can be found in [github issue 4](https://github.com/ans-group/fnm-webui/issues/4)
+
+First logon to mysql via the CLI and run:
+```
+MariaDB [(none)]> use fnm
+MariaDB [fnm]> ALTER TABLE dc MODIFY api_password VARCHAR(255);
+```
+Note: this assumes your database is called `fnm`
