@@ -15,7 +15,7 @@
         "nunomaduro/collision": "^5.0",
 	"laravel/ui": "^3.0",
         "phpunit/phpunit": "^9.0",
-        "predis/predis": "^1.1"
+        "predis/predis": "^2.1"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
