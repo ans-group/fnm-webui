@@ -102,7 +102,7 @@
 
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="{{ route('app_changelog') }}"><i class="fa fa-newspaper-o" aria-hidden="true"></i>&nbsp; Changelog</a></li>
-                    <li><a href="{{ env('BUG_URL', 'https://github.com/ukfast/fnm-webui/issues') }}" target="_blank"><i class="fa fa-bug" aria-hidden="true"></i>&nbsp; Report a bug</a></li>
+                    <li><a href="{{ env('BUG_URL', 'https://github.com/Pumtrix-Tech/fnm-webui/issues') }}" target="_blank"><i class="fa fa-bug" aria-hidden="true"></i>&nbsp; Report a bug</a></li>
 
                     <!-- User settings button -->
                     <li class="dropdown">
@@ -142,7 +142,7 @@
         <div class="row">
             <hr>
             <div class="col-sm-6 text-left text-muted">
-                Released under GPLv3. &nbsp; <a href="https://github.com/ukfast/fnm-webui">View on GitHub.</a><br>
+                Released under GPLv3. &nbsp; <a href="https://github.com/Pumtrix-Tech/fnm-webui">View on GitHub.</a><br>
             </div>
             <div class="col-sm-6 text-right text-muted">
                     <p>Rendered at <strong>{{ date("Y-m-d H:i:s", time()) }}</strong> in <strong>{{ round(microtime(true) - LARAVEL_START, 3) }}s</strong></p>
