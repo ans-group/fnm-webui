@@ -30,7 +30,7 @@ class HomeController extends Controller
         $blackholes = [];
         foreach($dcs as $dc) {
             $bl = $dc->getBlackholes();
-            if($bl == false) { break; }
+            if($bl == false) { continue; }
             foreach($bl as $key=>$value) { $bl[$key]['dc_id'] = $dc->id; $bl[$key]['dc_name'] = $dc->name; }
             $blackholes = array_merge($blackholes, $bl);
         }
@@ -45,7 +45,7 @@ class HomeController extends Controller
         // Build an array of all traffic
         foreach ($dcs as $dc) {
             $traf = $dc->hostTraffic();
-            if($traf == false) { break; }
+            if($traf == false) { continue; }
             $dcHostTraffic = array_merge( $dcHostTraffic, $traf );
         }
 
