@@ -115,12 +115,12 @@ View Action - {{$action->uuid}}
                             <td>{{ strtoupper($action->attack_severity) }}</td>
                         </tr>
                         <tr>
-                            <th>Attack Type</th>
-                            <td>{{ strtoupper($action->attack_type) }}</td>
+                            <th>Attack Threshold</th>
+                            <td>{{ strtoupper($action->attack_detection_threshold) }}</td>
                         </tr>
                         <tr>
-                            <th>Attack Protocol</th>
-                            <td>{{ strtoupper($action->attack_protocol) }}</td>
+                            <th>Attack Direction</th>
+                            <td>{{ strtoupper($action->attack_detection_threshold_direction) }}</td>
                         </tr>
                         <tr>
                             <th>Detection Source</th>

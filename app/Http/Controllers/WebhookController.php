@@ -63,19 +63,16 @@ class WebhookController extends Controller
         $action->hostgroup_id = $range->hostgroup->id;
         $action->dc_id = $range->hostgroup->dc->id;
 
-        $action->attack_severity                   = $data['attack_details']['attack_severity'];
-        $action->attack_direction                  = $data['attack_details']['attack_direction'];
-        $action->attack_type                       = $data['attack_details']['attack_type'];
-        $action->attack_protocol                   = $data['attack_details']['attack_protocol'];
-        $action->attack_detection_source           = $data['attack_details']['attack_detection_source'];
-        $action->attack_initial_power              = $data['attack_details']['initial_attack_power'];
-        $action->attack_peak_power                 = $data['attack_details']['peak_attack_power'];
-        $action->attack_total_incoming_traffic     = $data['attack_details']['total_incoming_traffic'];
-        $action->attack_total_outgoing_traffic     = $data['attack_details']['total_outgoing_traffic'];
-        $action->attack_total_incoming_pps         = $data['attack_details']['total_incoming_pps'];
-        $action->attack_total_outgoing_pps         = $data['attack_details']['total_outgoing_pps'];
-        $action->attack_total_incoming_flows       = $data['attack_details']['total_incoming_flows'];
-        $action->attack_total_outgoing_flows       = $data['attack_details']['total_outgoing_flows'];
+        $action->attack_severity                        = $data['attack_details']['attack_severity'];
+        $action->attack_detection_threshold             = $data['attack_details']['attack_detection_threshold'];
+        $action->attack_detection_threshold_direction   = $data['attack_details']['attack_detection_threshold_direction'];
+        $action->attack_detection_source                = $data['attack_details']['attack_detection_source'];
+        $action->attack_total_incoming_traffic          = $data['attack_details']['total_incoming_traffic'];
+        $action->attack_total_outgoing_traffic          = $data['attack_details']['total_outgoing_traffic'];
+        $action->attack_total_incoming_pps              = $data['attack_details']['total_incoming_pps'];
+        $action->attack_total_outgoing_pps              = $data['attack_details']['total_outgoing_pps'];
+        $action->attack_total_incoming_flows            = $data['attack_details']['total_incoming_flows'];
+        $action->attack_total_outgoing_flows            = $data['attack_details']['total_outgoing_flows'];
 
         if(isset($data['packet_dump']) && !empty($data['packet_dump'])) {
             $action->packet_dump = json_encode($data['packet_dump']);

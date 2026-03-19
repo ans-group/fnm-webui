@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Actions extends Model
 {
     protected $fillable = [
-        'id','created_at','updated_at','hostgroup_id','ip_id','action','uuid','ip','attack_severity','attack_direction','attack_type','attack_protocol','attack_detection_source','attack_initial_power','attack_peak_power','attack_total_incoming_traffic','attack_total_outgoing_traffic','attack_total_incoming_pps','attack_total_outgoing_pps','attack_total_incoming_flows','attack_total_outgoing_flows',
+        'id','created_at','updated_at','hostgroup_id','ip_id','action','uuid','ip','attack_severity','attack_detection_threshold','attack_detection_threshold_direction','attack_detection_source','attack_total_incoming_traffic','attack_total_outgoing_traffic','attack_total_incoming_pps','attack_total_outgoing_pps','attack_total_incoming_flows','attack_total_outgoing_flows',
     ];
 
     public function range() {

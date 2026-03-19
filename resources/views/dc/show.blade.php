@@ -224,7 +224,7 @@ Manage DC - {{$dc->name}}
                             @if($i->attack_detection_source == "manual")
                                 <td>Manually {{ $i->action }}ned {{ $i->ip }}</td>
                             @else
-                                <td>{{ ucfirst($i->action) }}ned {{ $i->ip }} at {{ round($i->attack_peak_power / 1024, 2) }} kpps</td>
+                                <td>{{ ucfirst($i->action) }}ned {{ $i->ip }} ({{ $i->attack_detection_threshold }})</td>
                             @endif
                             <td class="text-right"><td class="text-right"><a href="{{ route('action.show', $i) }}" data-toggle="tooltip" data-placement="left" title="View attack details"><i class="fa fa-search-plus" aria-hidden="true"></i></a></td></td>
                         </tr>

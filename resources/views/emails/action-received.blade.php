@@ -63,24 +63,12 @@ table {
         <td>{{ $action->attack_severity }}</td>
     </tr>
     <tr>
-        <td>Attack Direction:</td>
-        <td>{{ $action->attack_direction }}</td>
+        <td>Attack Detection Threshold:</td>
+        <td>{{ $action->attack_detection_threshold }}</td>
     </tr>
     <tr>
-        <td>Attack Protocol:</td>
-        <td>{{ $action->attack_protocol }}</td>
-    </tr>
-    <tr>
-        <td>Attack Type:</td>
-        <td>{{ $action->attack_type }}</td>
-    </tr>
-    <tr>
-        <td>Initial Attack Power:</td>
-        <td>{{ $action->attack_initial_power }} pps</td>
-    </tr>
-    <tr>
-        <td>Initial Peak Power:</td>
-        <td>{{ $action->attack_peak_power }} pps</td>
+        <td>Attack Detection Threshold Direction:</td>
+        <td>{{ $action->attack_detection_threshold_direction }}</td>
     </tr>
     <tr>
         <td>Incoming Traffic:</td>
