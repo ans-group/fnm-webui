@@ -108,7 +108,7 @@ class HomeController extends Controller
         if(!empty($errors)) {
             if(!empty($messages)) {
                 // Some succeeded, some failed
-                return redirect()->back()->withErrors($errors)->with('warning', implode('; ', $messages));
+                return redirect()->back()->withErrors($errors)->with('warning', implode('<br>', $messages));
             } else {
                 // All failed
                 return redirect()->back()->withErrors($errors);
@@ -121,7 +121,7 @@ class HomeController extends Controller
                 // All succeeded (some may have been already banned)
                 $message = "IP address blackholed: {$validatedData['ip']}";
                 if(count($messages) > 1) {
-                    $message .= " (" . implode('; ', $messages) . ")";
+                    $message .= "<br>" . implode('<br>', $messages);
                 }
                 return redirect()->back()->withSuccess($message);
             }
@@ -177,7 +177,7 @@ class HomeController extends Controller
         if(!empty($errors)) {
             if(!empty($messages)) {
                 // Some succeeded, some failed
-                return redirect()->back()->withErrors($errors)->with('warning', implode('; ', $messages));
+                return redirect()->back()->withErrors($errors)->with('warning', implode('<br>', $messages));
             } else {
                 // All failed
                 return redirect()->back()->withErrors($errors);
@@ -190,7 +190,7 @@ class HomeController extends Controller
                 // All succeeded (some may not have been banned)
                 $message = "IP address blackhole removed: {$validatedData['ip']}";
                 if(count($messages) > 1) {
-                    $message .= " (" . implode('; ', $messages) . ")";
+                    $message .= "<br>" . implode('<br>', $messages);
                 }
                 return redirect()->back()->withSuccess($message);
             }
