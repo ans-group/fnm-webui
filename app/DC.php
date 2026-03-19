@@ -216,13 +216,22 @@ class DC extends Model
     public function getBlackholeUUID($ip) {
         $long = ip2long($ip);
         $cidr = $ip."/32";
-        $range = IP::where('start_ip', '<=', $long)->where('end_ip', '>=', $long)->orderBy('cidr', 'desc')->first();
+        
+        // Check if this IP exists in any range configured for this DC
+        $range = IP::where('start_ip', '<=', $long)
+                   ->where('end_ip', '>=', $long)
+                   ->whereHas('hostgroup', function($q) {
+                       $q->where('dc_id', $this->id);
+                   })
+                   ->orderBy('cidr', 'desc')
+                   ->first();
 
         if(is_null($range)) {
-            return false;
+            return null;
         }
 
-        $blackholes = collect($range->dc->getBlackholes(false));
+        // Check if this IP is actually blackholed in this specific DC
+        $blackholes = collect($this->getBlackholes(false));
         $uuid = $blackholes->where('ip', $cidr)->pluck('uuid', 'ip')->first();
         return $uuid;
     }

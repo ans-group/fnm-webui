@@ -66,24 +66,66 @@ class HomeController extends Controller
 
         $long = ip2long($validatedData['ip']);
         $ip = $validatedData['ip']."/32";
-        $range = IP::where('start_ip', '<=', $long)->where('end_ip', '>=', $long)->orderBy('cidr', 'desc')->first();
+        
+        // Find all IP ranges that contain this IP address across all DCs
+        $ranges = IP::where('start_ip', '<=', $long)
+                    ->where('end_ip', '>=', $long)
+                    ->with(['hostgroup.dc'])
+                    ->orderBy('cidr', 'desc')
+                    ->get();
 
-        if(is_null($range)) {
+        if($ranges->isEmpty()) {
             return redirect()->back()->withErrors(["Cannot find configured IP range for: ". $validatedData['ip']]);
         }
 
-        $alreadyBanned = $range->dc->getBlackholeUUID($validatedData['ip']);
+        $errors = [];
+        $successes = [];
+        $alreadyBanned = [];
 
-        if(!is_null($alreadyBanned)) {
-            return redirect()->back()->withErrors([$validatedData['ip']." is already banned with UUID: ".$alreadyBanned]);
+        // Process each matching range/DC
+        foreach($ranges as $range) {
+            $dc = $range->hostgroup->dc;
+            
+            // Check if already banned in this DC
+            $existingBan = $dc->getBlackholeUUID($validatedData['ip']);
+            if(!is_null($existingBan)) {
+                $alreadyBanned[] = "{$dc->name}: already banned with UUID: {$existingBan}";
+                continue;
+            }
+
+            // Attempt to ban in this DC
+            $block = $dc->manageBlackhole($validatedData['ip'], "PUT");
+            if(!$block['success']) {
+                $errors[] = "{$dc->name}: {$block['error_text']}";
+            } else {
+                $successes[] = "{$dc->name}: IP blackholed successfully";
+            }
         }
 
-        $block = $range->dc->manageBlackhole($validatedData['ip'], "PUT");
-        if(!$block['success']) {
-            return redirect()->back()->withErrors( [$range->dc->name, $block['error_text'] ] );
+        // Prepare response messages
+        $messages = array_merge($alreadyBanned, $successes);
+        
+        if(!empty($errors)) {
+            if(!empty($messages)) {
+                // Some succeeded, some failed
+                return redirect()->back()->withErrors($errors)->with('warning', implode('; ', $messages));
+            } else {
+                // All failed
+                return redirect()->back()->withErrors($errors);
+            }
+        } else {
+            if(!empty($alreadyBanned) && empty($successes)) {
+                // All were already banned
+                return redirect()->back()->withErrors($alreadyBanned);
+            } else {
+                // All succeeded (some may have been already banned)
+                $message = "IP address blackholed: {$validatedData['ip']}";
+                if(count($messages) > 1) {
+                    $message .= " (" . implode('; ', $messages) . ")";
+                }
+                return redirect()->back()->withSuccess($message);
+            }
         }
-
-        return redirect()->back()->withSuccess("IP address blackholed: ". $validatedData['ip']);
     }
 
     public function deleteBlackhole (Request $request) {
@@ -93,23 +135,65 @@ class HomeController extends Controller
         ]);
 
         $long = ip2long($validatedData['ip']);
-        $range = IP::where('start_ip', '<=', $long)->where('end_ip', '>=', $long)->orderBy('cidr', 'desc')->first();
+        
+        // Find all IP ranges that contain this IP address across all DCs
+        $ranges = IP::where('start_ip', '<=', $long)
+                    ->where('end_ip', '>=', $long)
+                    ->with(['hostgroup.dc'])
+                    ->orderBy('cidr', 'desc')
+                    ->get();
 
-        if(is_null($range)) {
+        if($ranges->isEmpty()) {
             return redirect()->back()->withErrors(["Cannot find configured IP range for: ". $validatedData['ip']]);
         }
 
-        $uuid = $range->dc->getBlackholeUUID($validatedData['ip']);
+        $errors = [];
+        $successes = [];
+        $notBanned = [];
 
-        if(is_null($uuid)) {
-            return redirect()->back()->withErrors([$validatedData['ip']." is not currently banned."]);
+        // Process each matching range/DC
+        foreach($ranges as $range) {
+            $dc = $range->hostgroup->dc;
+            
+            // Check if banned in this DC
+            $uuid = $dc->getBlackholeUUID($validatedData['ip']);
+            if(is_null($uuid)) {
+                $notBanned[] = "{$dc->name}: not currently banned";
+                continue;
+            }
+
+            // Attempt to unban in this DC
+            $block = $dc->manageBlackhole($uuid, "DELETE");
+            if(!$block['success']) {
+                $errors[] = "{$dc->name}: {$block['error_text']}";
+            } else {
+                $successes[] = "{$dc->name}: blackhole removed successfully";
+            }
         }
 
-        $block = $range->dc->manageBlackhole($uuid, "DELETE");
-        if(!$block['success']) {
-            return redirect()->back()->withErrors( [$range->dc->name, $block['error_text'] ] );
+        // Prepare response messages
+        $messages = array_merge($notBanned, $successes);
+        
+        if(!empty($errors)) {
+            if(!empty($messages)) {
+                // Some succeeded, some failed
+                return redirect()->back()->withErrors($errors)->with('warning', implode('; ', $messages));
+            } else {
+                // All failed
+                return redirect()->back()->withErrors($errors);
+            }
+        } else {
+            if(!empty($notBanned) && empty($successes)) {
+                // None were banned
+                return redirect()->back()->withErrors($notBanned);
+            } else {
+                // All succeeded (some may not have been banned)
+                $message = "IP address blackhole removed: {$validatedData['ip']}";
+                if(count($messages) > 1) {
+                    $message .= " (" . implode('; ', $messages) . ")";
+                }
+                return redirect()->back()->withSuccess($message);
+            }
         }
-
-        return redirect()->back()->withSuccess("IP address blackhole removed: ". $validatedData['ip']);
     }
 }
